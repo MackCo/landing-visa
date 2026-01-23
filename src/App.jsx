@@ -18,14 +18,42 @@ import {
 
 /**
  * Landing Page Profesional - Leslie Suarez
- * Optimizada para Tailwind CSS v4
+ * Configurada para notificaciones automáticas por WhatsApp
  */
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
+  // 1. Estados para capturar los datos del formulario
+  const [formData, setFormData] = useState({
+    nombre: '',
+    telefono: ''
+  });
+
+  // 2. CONFIGURACIÓN DE CONTACTO (Tu número de WhatsApp)
+  const whatsappNumber = "525585377617"; 
+  
+  // Enlace general para consultas rápidas
+  const quickQueryMessage = encodeURIComponent("Hola Leslie, me gustaría recibir más información sobre tu asesoría de visas.");
+  const quickWhatsappLink = `https://wa.me/${whatsappNumber}?text=${quickQueryMessage}`;
+
+  // Función para manejar cambios en los campos de texto
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // 3. Lógica para enviar los datos del formulario a tu WhatsApp
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("¡Gracias! Leslie se pondrá en contacto contigo pronto.");
+    
+    const customMessage = `Hola Leslie, mi nombre es ${formData.nombre}. Mi número de contacto es ${formData.telefono} y me gustaría iniciar mi trámite de visa con tu asesoría.`;
+    const encodedMessage = encodeURIComponent(customMessage);
+    const finalLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Abre el chat de WhatsApp con el mensaje ya escrito
+    window.open(finalLink, '_blank');
   };
 
   return (
@@ -80,7 +108,13 @@ export default function App() {
                 <a href="#contacto" className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200 flex items-center justify-center gap-2">
                   Iniciar trámite <ChevronRight size={20} />
                 </a>
-                <a href="#" className="px-8 py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition shadow-xl shadow-emerald-100 flex items-center justify-center gap-2">
+                {/* Botón Hero conectado a tu WhatsApp */}
+                <a 
+                  href={quickWhatsappLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition shadow-xl shadow-emerald-100 flex items-center justify-center gap-2"
+                >
                   <MessageCircle size={20} /> WhatsApp
                 </a>
               </div>
@@ -94,11 +128,9 @@ export default function App() {
                   alt="Leslie Suarez" 
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    // Si falla leslie.jpg, intenta con Visa.png
                     if (e.target.src.includes('leslie.jpg')) {
                         e.target.src = "/Visa.png";
                     } else if (e.target.src.includes('Visa.png')) {
-                        // Si ambos fallan, usa el marcador de posición profesional
                         e.target.src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800";
                         e.target.onerror = null;
                     }
@@ -143,14 +175,38 @@ export default function App() {
         </div>
       </section>
 
+      {/* Sección de Contacto con Formulario Conectado */}
       <section id="contacto" className="py-16 bg-white px-4">
         <div className="max-w-xl mx-auto bg-slate-900 rounded-3xl p-8 md:p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-6">¿Empezamos tu trámite?</h2>
-          <p className="text-slate-400 mb-8 text-sm">Deja tus datos y me comunicaré contigo por WhatsApp.</p>
+          <p className="text-slate-400 mb-8 text-sm">Deja tus datos y te redirigiremos a mi WhatsApp personal con tu información lista.</p>
+          
           <form onSubmit={handleSubmit} className="space-y-4 text-left">
-            <input type="text" placeholder="Nombre Completo" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500" required />
-            <input type="tel" placeholder="WhatsApp" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500" required />
-            <button className="w-full bg-blue-600 py-4 rounded-xl font-bold hover:bg-blue-700 transition mt-4">Enviar Solicitud</button>
+            <div>
+              <input 
+                type="text" 
+                name="nombre"
+                placeholder="Nombre Completo" 
+                value={formData.nombre}
+                onChange={handleChange}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 text-white" 
+                required 
+              />
+            </div>
+            <div>
+              <input 
+                type="tel" 
+                name="telefono"
+                placeholder="WhatsApp" 
+                value={formData.telefono}
+                onChange={handleChange}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 text-white" 
+                required 
+              />
+            </div>
+            <button className="w-full bg-blue-600 py-4 rounded-xl font-bold hover:bg-blue-700 transition mt-4 flex items-center justify-center gap-2 shadow-xl shadow-blue-500/20">
+              <MessageCircle size={20} /> Enviar Solicitud por WhatsApp
+            </button>
           </form>
         </div>
       </section>
