@@ -18,25 +18,21 @@ import {
 
 /**
  * Landing Page Profesional - Leslie Suarez
- * Configurada para notificaciones automáticas por WhatsApp
+ * Configurada para navegación fluida y contacto por WhatsApp
  */
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // 1. Estados para capturar los datos del formulario
   const [formData, setFormData] = useState({
     nombre: '',
     telefono: ''
   });
 
-  // 2. CONFIGURACIÓN DE CONTACTO (Tu número de WhatsApp)
+  // CONFIGURACIÓN DE CONTACTO
   const whatsappNumber = "525585377617"; 
-  
-  // Enlace general para consultas rápidas
   const quickQueryMessage = encodeURIComponent("Hola Leslie, me gustaría recibir más información sobre tu asesoría de visas.");
   const quickWhatsappLink = `https://wa.me/${whatsappNumber}?text=${quickQueryMessage}`;
 
-  // Función para manejar cambios en los campos de texto
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -44,20 +40,16 @@ export default function App() {
     });
   };
 
-  // 3. Lógica para enviar los datos del formulario a tu WhatsApp
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     const customMessage = `Hola Leslie, mi nombre es ${formData.nombre}. Mi número de contacto es ${formData.telefono} y me gustaría iniciar mi trámite de visa con tu asesoría.`;
     const encodedMessage = encodeURIComponent(customMessage);
     const finalLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-    
-    // Abre el chat de WhatsApp con el mensaje ya escrito
     window.open(finalLink, '_blank');
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen bg-white font-sans text-slate-900 overflow-x-hidden scroll-smooth">
       {/* Navegación */}
       <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,6 +73,7 @@ export default function App() {
           </div>
         </div>
 
+        {/* Menú Móvil */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 p-4 space-y-4 shadow-xl">
             <a href="#metodologia" onClick={() => setIsMenuOpen(false)} className="block py-2 text-slate-600 font-medium">Metodología</a>
@@ -108,7 +101,6 @@ export default function App() {
                 <a href="#contacto" className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200 flex items-center justify-center gap-2">
                   Iniciar trámite <ChevronRight size={20} />
                 </a>
-                {/* Botón Hero conectado a tu WhatsApp */}
                 <a 
                   href={quickWhatsappLink} 
                   target="_blank" 
@@ -120,7 +112,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Espacio de la Foto */}
+            {/* Foto de Leslie */}
             <div className="order-1 lg:order-2 relative px-4 md:px-0">
               <div className="relative z-10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border-4 md:border-8 border-white shadow-2xl aspect-[4/5] bg-slate-100 max-w-md mx-auto">
                 <img 
@@ -151,7 +143,61 @@ export default function App() {
         </div>
       </header>
 
-      {/* Secciones adicionales */}
+      {/* SECCIÓN SOBRE MÍ (Restaurada) */}
+      <section id="sobre-mi" className="py-16 md:py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="order-2 lg:order-1">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 text-center lg:text-left">¿Por qué confiar en mí?</h2>
+              <div className="space-y-6 text-slate-600 text-base md:text-lg leading-relaxed text-center lg:text-left">
+                <p>
+                  Todo comenzó ayudando a amigos cercanos. Al ver la confusión y el miedo que genera el trámite de la visa, decidí profesionalizar mi conocimiento para ofrecer un servicio donde la <strong>honestidad</strong> es lo primero.
+                </p>
+                <p>
+                  No te vendo una aprobación garantizada, te vendo la <strong>mejor preparación posible</strong>. Analizo tu perfil, detecto puntos débiles y te acompaño hasta que sales de tu entrevista.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                  <div className="border-l-4 border-blue-600 pl-4 text-left">
+                    <div className="text-xl md:text-2xl font-bold text-slate-900">Personal</div>
+                    <div className="text-sm text-slate-500">Sin intermediarios</div>
+                  </div>
+                  <div className="border-l-4 border-blue-600 pl-4 text-left">
+                    <div className="text-xl md:text-2xl font-bold text-slate-900">Transparente</div>
+                    <div className="text-sm text-slate-500">Sin costos ocultos</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="order-1 lg:order-2">
+               <div className="grid grid-cols-2 gap-3 md:gap-4 max-w-sm mx-auto lg:max-w-none text-white">
+                  <div className="space-y-3 md:space-y-4 pt-8 md:pt-12">
+                    <div className="aspect-square bg-blue-600 rounded-2xl flex flex-col items-center justify-center p-4 shadow-xl shadow-blue-200">
+                      <CheckCircle size={32} className="mb-2" />
+                      <span className="text-center font-bold text-xs md:text-sm">Llenado DS-160</span>
+                    </div>
+                    <div className="aspect-square bg-slate-900 rounded-2xl flex flex-col items-center justify-center p-4">
+                      <Users size={32} className="mb-2" />
+                      <span className="text-center font-bold text-xs md:text-sm">Simulacros</span>
+                    </div>
+                  </div>
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="aspect-square bg-slate-100 rounded-2xl flex flex-col items-center justify-center text-slate-900 p-4">
+                      <Calendar size={32} className="mb-2 text-blue-600" />
+                      <span className="text-center font-bold text-xs md:text-sm">Gestión de Citas</span>
+                    </div>
+                    <div className="aspect-square bg-blue-50 rounded-2xl flex flex-col items-center justify-center text-blue-900 p-4 border border-blue-100">
+                      <FileText size={32} className="mb-2 text-blue-600" />
+                      <span className="text-center font-bold text-xs md:text-sm">Documentación</span>
+                    </div>
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Metodología */}
       <section id="metodologia" className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-12 text-slate-900">Mi Método</h2>
@@ -175,7 +221,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Sección de Contacto con Formulario Conectado */}
+      {/* Contacto */}
       <section id="contacto" className="py-16 bg-white px-4">
         <div className="max-w-xl mx-auto bg-slate-900 rounded-3xl p-8 md:p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-6">¿Empezamos tu trámite?</h2>
